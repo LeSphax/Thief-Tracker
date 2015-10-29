@@ -12,19 +12,28 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:weightSum="7">
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
             <ToggleButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="New ToggleButton"
-                android:id="@+id/toggleButton"
+                android:text="Unplugging alarm"
+                android:textOff="Unplugging alarm"
+                android:textOn="Unplugging alarm"
+                android:id="@+id/buttonUnplugged"
+                android:drawableTop="@drawable/ic_unplugged"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_weight="1" />
@@ -32,16 +41,26 @@
             <ToggleButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="New ToggleButton"
-                android:id="@+id/toggleButton2"
+                android:text="Movement alarm"
+                android:textOff="Movement alarm"
+                android:textOn="Movement alarm"
+                android:id="@+id/buttonMoving"
+                android:drawableTop="@drawable/ic_movement"
                 android:layout_weight="1" />
         </LinearLayout>
 
         <Button
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="New Button"
+            android:layout_height="0dp"
+            android:text="Manage friends"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:drawableTop="@drawable/ic_friends"
+            android:layout_weight="2" />
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+
     </LinearLayout>
 </RelativeLayout>
