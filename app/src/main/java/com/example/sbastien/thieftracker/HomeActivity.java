@@ -11,8 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,14 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+        Button buttonFriends = (Button) findViewById(R.id.buttonFriends);
+        buttonFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(),FriendsActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
     }
 
     /**
@@ -56,5 +65,7 @@ public class Home extends AppCompatActivity {
         }
         return true;
     }
+
+
 
 }

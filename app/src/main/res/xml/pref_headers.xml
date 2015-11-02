@@ -15,4 +15,9 @@
         android:fragment="com.example.sbastien.thieftracker.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" android:icon="@drawable/ic_sync_black_24dp" />
 
+
+    <header
+        android:fragment="com.example.sbastien.thieftracker.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="@string/pref_header_about" android:icon="@android:drawable/ic_menu_help" />
+
 </preference-headers>
