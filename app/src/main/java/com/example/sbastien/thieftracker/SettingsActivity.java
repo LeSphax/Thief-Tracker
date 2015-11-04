@@ -2,8 +2,10 @@ package com.example.sbastien.thieftracker;
 
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -157,9 +159,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || CommandsPreferenceFragment.class.getName().equals(fragmentName)
+                || AboutFragment.class.getName().equals(fragmentName)
+                || AlarmParametersPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @Override
@@ -177,19 +179,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
+    public static class CommandsPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
+            addPreferencesFromResource(R.xml.pref_commands);
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference("Lock"));
+            bindPreferenceSummaryToValue(findPreference("Unlock"));
         }
 
         @Override
@@ -203,23 +201,34 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
+    public static class AlarmParametersPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
+        private SeekBarPreference _seekBarSensitivity;
+        private SeekBarPreference _seekBarRepetition;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
+
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_notification);
+
+            // Load the preferences from an XML resource
+            addPreferencesFromResource(R.xml.pref_alarm_parameters);
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+
+            // Get widgets :
+            _seekBarSensitivity = (SeekBarPreference) this.findPreference(this.getString(R.string.pref_sensitivity_key));
+            _seekBarRepetition = (SeekBarPreference) this.findPreference(this.getString(R.string.pref_repetitions_key));
+
+            // Set listener :
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+            // Set seekbar summary :
+            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(this.getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
+            _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + radius));
+            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
+            _seekBarRepetition.setSummary(this.getString(R.string.pref_repetitions_summary).replace("$1", "" + repetitions));
         }
 
         @Override
@@ -231,35 +240,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * This fragment shows data and sync preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DataSyncPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            int sensitivity = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
+            _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + sensitivity));
+
+            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
+            _seekBarRepetition.setSummary(this.getString(R.string.pref_repetitions_summary).replace("$1", "" + repetitions));
         }
     }
+
 }

@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.example.sbastien.thieftracker.SeekBarPreference
+        android:key = "@string/pref_sensitivity_key"
+        android:title = "@string/pref_sensitivity_title"
+        android:defaultValue="@string/pref_sensitivity_defaulValue"
+        android:max = "100"
+        android:dialogMessage="Choose the movement sensitivity of the alarm"
+        android:summary = "@string/pref_sensitivity_summary"
+        />
+
+    <com.example.sbastien.thieftracker.SeekBarPreference
+        android:key = "@string/pref_repetitions_key"
+        android:title = "@string/pref_repetitions_title"
+        android:defaultValue="@string/pref_repetitions_defaulValue"
+        android:max = "5"
+        android:dialogMessage="Choose the movement sensitivity of the alarm"
+        android:summary = "@string/pref_repetitions_summary"
+        />
+
+</PreferenceScreen>
