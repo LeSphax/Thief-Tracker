@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -46,6 +47,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
+
+
+    }
+
+    private void createPopUp(){
         new AlertDialog.Builder(this)
                 .setTitle("Setup Admin Rights")
                 .setMessage("This application needs administrator rights to function correctly, please give this application authorization to lock your phone.")
@@ -64,7 +70,6 @@ public class HomeActivity extends AppCompatActivity {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
-
     }
 
 
@@ -99,6 +104,17 @@ public class HomeActivity extends AppCompatActivity {
 
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADMIN_INTENT) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
