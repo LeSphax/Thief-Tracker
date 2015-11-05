@@ -22,26 +22,44 @@ public class FriendListAdapter extends ArrayAdapter<Friends>{
     Context context;
 
     public FriendListAdapter(Context context, int layoutResource, List<Friends> items){
-        super(context,layoutResource,items);
+        super(context, layoutResource, items);
         this.items = items;
         this.layoutResource = layoutResource;
         this.context = context;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        FriendsHolder holder = new FriendsHolder();
+    public View getView(final int position, View convertView, ViewGroup parent){
+        final FriendsHolder holder = new FriendsHolder();
 
         LayoutInflater inflater= ((Activity) context).getLayoutInflater();
         View row = inflater.inflate(layoutResource, parent, false);
 
         holder.friend = items.get(position);
+
         holder.deleteButton = (ImageButton) row.findViewById(R.id.buttonFriends);
         holder.deleteButton.setTag(holder.friend);
 
         holder.friendName = (TextView) row.findViewById(R.id.nameField);
+        holder.friendName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                   items.get(position).setName(holder.friendName.getText().toString());
+                }
+            }
+        });
 
         holder.friendPhone = (TextView) row.findViewById(R.id.phoneField);
+        holder.friendPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    items.get(position).setName(holder.friendPhone.getText().toString());
+                }
+            }
+        });
 
         row.setTag(holder);
 
