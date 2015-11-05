@@ -75,4 +75,8 @@
     <string name="pref_repetitions_defaulValue">3</string>
     <string name="pref_repetitions_title">Number of repetitions</string>
     <string name="pref_repetitions_summary">Current value is $1</string>
+
+    <!-- Friend activities string-->
+    <string name="friend_name">Enter a name</string>
+    <string name="friend_phone">Enter a phone number</string>
 </resources>

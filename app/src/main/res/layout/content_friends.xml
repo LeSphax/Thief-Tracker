@@ -10,4 +10,11 @@
     tools:showIn="@layout/activity_friends"
     tools:context="com.example.sbastien.thieftracker.FriendsActivity">
 
+    <ListView android:id="@+id/listView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+
+
 </RelativeLayout>
