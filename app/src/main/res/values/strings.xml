@@ -79,4 +79,9 @@
     <!-- Friend activities string-->
     <string name="friend_name">Enter a name</string>
     <string name="friend_phone">Enter a phone number</string>
+    <string name="admin_receiver_status_disable_warning">Be careful, Thief-Tracker won't work if you disable administrator mode !</string>
+    <string name="admin_receiver_status_enabled">Admin receiver enabled !</string>
+    <string name="admin_receiver_status">Admin Receiver Status</string>
+    <string name="admin_receiver_status_disabled">Admin receiver status disabled !</string>
+    <string name="admin_receiver_status_pw_changed">Admin receiver password changed !</string>
 </resources>

@@ -35,8 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-        mDevicePolicyManager = (DevicePolicyManager)getSystemService(
-                Context.DEVICE_POLICY_SERVICE);
+        mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         mComponentName = new ComponentName(this, MyAdminReceiver.class);
 
         Button buttonFriends = (Button) findViewById(R.id.buttonFriends);
@@ -47,20 +46,22 @@ public class HomeActivity extends AppCompatActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
-
-
+        boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
+        if (!isAdmin)
+            createPopUp();
     }
 
-    private void createPopUp(){
+    private void createPopUp() {
         new AlertDialog.Builder(this)
                 .setTitle("Setup Admin Rights")
                 .setMessage("This application needs administrator rights to function correctly, please give this application authorization to lock your phone.")
                 .setPositiveButton("Enable admin rights", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
-                        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,description);
-                        startActivityForResult(intent, ADMIN_INTENT);
+                        HomeActivity.this.startActivityForResult(new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+
+                                .putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName)
+                                .putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, description), ADMIN_INTENT)
+                        ;
                     }
                 })
                 .setNegativeButton("Quit Application", new DialogInterface.OnClickListener() {
@@ -73,9 +74,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -85,21 +83,20 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
             return true;
-        }
-        else{
-            Intent myIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+        } else {
+            Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivityForResult(myIntent, 0);
 
         }
@@ -111,12 +108,11 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == ADMIN_INTENT) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
             }
         }
     }
-
 
 
 }
