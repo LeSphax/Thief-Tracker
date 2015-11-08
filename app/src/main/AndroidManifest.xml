@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sbastien.thieftracker" >
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +31,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FriendsActivity"
+
+            android:name=".FriendManager.FriendsActivity"
             android:label="@string/title_activity_friends"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -57,6 +63,8 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <activity android:name=".FriendManager.NewFriendActivity" >
+        </activity>
     </application>
 
 </manifest>

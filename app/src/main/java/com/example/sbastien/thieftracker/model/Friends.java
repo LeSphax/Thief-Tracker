@@ -26,4 +26,18 @@ public class Friends {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+        Friends friend = (Friends) o;
+        if( !this.name.equals(friend.getName()) && !this.phoneNumber.equals(friend.getPhoneNumber()))
+            return false;
+        return true;
+    }
 }

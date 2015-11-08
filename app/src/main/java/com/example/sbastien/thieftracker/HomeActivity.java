@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.sbastien.thieftracker.FriendManager.FriendsActivity;
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final int ADMIN_INTENT = 15;
