@@ -53,7 +53,7 @@
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Alarm Settings</string>
+    <string name="pref_header_security_settings">Security Settings</string>
 
     <string name="pref_title_new_message_notifications">New message notifications</string>
 
@@ -79,6 +79,22 @@
     <!-- Friend activities string-->
     <string name="friend_name">Enter a name</string>
     <string name="friend_phone">Enter a phone number</string>
+    <string name="admin_receiver_status_disable_warning">Be careful, Thief-Tracker won\'t work if you disable administrator mode !</string>
+    <string name="admin_receiver_status_enabled">Admin receiver enabled !</string>
+    <string name="admin_receiver_status">Admin Receiver Status</string>
+    <string name="admin_receiver_status_disabled">Admin receiver status disabled !</string>
+    <string name="admin_receiver_status_pw_changed">Admin receiver password changed !</string>
+
+    <string name="title_activity_alarm">AlarmActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="pref_default_PIN">0000</string>
+    <string name="pref_key_PIN">PIN</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="alarm_service_started">TEST_SERVICE</string>
+    <string name="alarm_service_label">Thief-Tracker\'s alarm</string>
+    <string name="alarm_button_correct_text">C</string>
     <string name="add_new_friend">Add a new friend</string>
     <string name="name">Name</string>
     <string name="phone">Phone number</string>

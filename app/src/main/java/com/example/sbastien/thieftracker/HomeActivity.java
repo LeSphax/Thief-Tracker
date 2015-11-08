@@ -1,5 +1,10 @@
 package com.example.sbastien.thieftracker;
 
+import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -10,10 +15,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.sbastien.thieftracker.FriendManager.FriendsActivity;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final int ADMIN_INTENT = 15;
+    private static final String description = "Some Description About Your Admin";
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mComponentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +34,59 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
+        mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        mComponentName = new ComponentName(this, MyAdminReceiver.class);
+
+
         Button buttonFriends = (Button) findViewById(R.id.buttonFriends);
         buttonFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(),FriendsActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), FriendsActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
+
+        ToggleButton buttonMovement = (ToggleButton) findViewById(R.id.buttonMovement);
+        buttonMovement.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ToggleButton button = (ToggleButton) v;
+                if (button.isChecked()) {
+                    Intent myIntent = new Intent(getApplicationContext(), AlarmActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }
+            }
+        });
+        boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
+        if (!isAdmin)
+            createPopUp();
     }
 
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
+    private void createPopUp() {
+        new AlertDialog.Builder(this)
+                .setTitle("Setup Admin Rights")
+                .setMessage("This application needs administrator rights to function correctly, please give this application authorization to lock your phone.")
+                .setPositiveButton("Enable admin rights", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        HomeActivity.this.startActivityForResult(new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+
+                                .putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName)
+                                .putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, description), ADMIN_INTENT)
+                        ;
+                    }
+                })
+                .setNegativeButton("Quit Application", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        HomeActivity.this.finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -44,28 +96,36 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-
         inflater.inflate(R.menu.mainmenu, menu);
 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
             return true;
-        }
-        else{
-            Intent myIntent = new Intent(getApplicationContext(),SettingsActivity.class);
+        } else {
+            Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivityForResult(myIntent, 0);
 
         }
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADMIN_INTENT) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 }

@@ -44,7 +44,7 @@
                 android:text="Movement alarm"
                 android:textOff="Movement alarm"
                 android:textOn="Movement alarm"
-                android:id="@+id/buttonMoving"
+                android:id="@+id/buttonMovement"
                 android:drawableTop="@drawable/ic_movement"
                 android:layout_weight="1" />
         </LinearLayout>
