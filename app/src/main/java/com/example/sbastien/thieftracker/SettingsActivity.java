@@ -2,7 +2,6 @@ package com.example.sbastien.thieftracker;
 
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -161,7 +160,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || CommandsPreferenceFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
-                || AlarmParametersPreferenceFragment.class.getName().equals(fragmentName);
+                || SecurityParametersPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     @Override
@@ -203,7 +202,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class AlarmParametersPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
+    public static class SecurityParametersPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
         private SeekBarPreference _seekBarSensitivity;
         private SeekBarPreference _seekBarRepetition;
 
@@ -213,7 +212,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
 
             // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.pref_alarm_parameters);
+            addPreferencesFromResource(R.xml.pref_security_settings);
             setHasOptionsMenu(true);
 
 
@@ -225,10 +224,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
             // Set seekbar summary :
-            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(this.getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
+            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity())
+                    .getInt(this.getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
             _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + radius));
-            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
+            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity())
+                    .getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
             _seekBarRepetition.setSummary(this.getString(R.string.pref_repetitions_summary).replace("$1", "" + repetitions));
+            bindPreferenceSummaryToValue(findPreference("PIN"));
         }
 
         @Override

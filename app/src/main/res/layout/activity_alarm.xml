@@ -1,0 +1,171 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id = "@+id/alarmActivity"
+    tools:context="com.example.sbastien.thieftracker.AlarmActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="253"
+        android:id="@+id/fullscreen_content"
+        android:focusableInTouchMode="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="SmallText"
+            android:id="@+id/passwordField"
+            android:textSize="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="50" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:weightSum="152" >
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="1"
+                android:textSize="36dp"
+                android:id="@+id/button1"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="2"
+                android:textSize="36dp"
+                android:id="@+id/button2"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="3"
+                android:textSize="36dp"
+                android:id="@+id/button3"
+                android:layout_weight="50" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:weightSum="152" >
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="4"
+                android:textSize="36dp"
+                android:id="@+id/button4"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="5"
+                android:textSize="36dp"
+                android:id="@+id/button5"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="6"
+                android:textSize="36dp"
+                android:id="@+id/button6"
+                android:layout_weight="50" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:weightSum="152" >
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="7"
+                android:textSize="36dp"
+                android:id="@+id/button7"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="8"
+                android:textSize="36dp"
+                android:id="@+id/button8"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="9"
+                android:textSize="36dp"
+                android:id="@+id/button9"
+                android:layout_weight="50" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:weightSum="152" >
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="0"
+                android:textSize="36dp"
+                android:id="@+id/button0"
+                android:layout_weight="50" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:text="@string/alarm_button_correct_text"
+                android:textSize="36dp"
+                android:id="@+id/buttonCorrect"
+                android:layout_weight="50" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -10,16 +10,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -38,12 +35,26 @@ public class HomeActivity extends AppCompatActivity {
         mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         mComponentName = new ComponentName(this, MyAdminReceiver.class);
 
+
         Button buttonFriends = (Button) findViewById(R.id.buttonFriends);
         buttonFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), FriendsActivity.class);
                 startActivityForResult(myIntent, 0);
+            }
+        });
+
+        ToggleButton buttonMovement = (ToggleButton) findViewById(R.id.buttonMovement);
+        buttonMovement.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ToggleButton button = (ToggleButton) v;
+                if (button.isChecked()) {
+                    Intent myIntent = new Intent(getApplicationContext(), AlarmActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }
             }
         });
         boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);

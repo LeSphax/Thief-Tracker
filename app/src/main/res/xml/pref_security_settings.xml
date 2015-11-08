@@ -18,4 +18,15 @@
         android:summary = "@string/pref_repetitions_summary"
         />
 
+    <EditTextPreference
+        android:key = "@string/pref_key_PIN"
+        android:title="PIN"
+        android:defaultValue="@string/pref_default_PIN"
+        android:dialogMessage="Choose your PIN to unlock the phone"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        />
+
+
+
 </PreferenceScreen>
