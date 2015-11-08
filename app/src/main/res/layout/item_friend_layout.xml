@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
 
-    <EditText android:id="@+id/nameField"
+    <TextView android:id="@+id/nameField"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:gravity="center"
         android:hint="@string/friend_name"/>
-    <EditText android:id="@+id/phoneField"
+    <TextView android:id="@+id/phoneField"
         android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:gravity="center"
         android:hint="@string/friend_phone"/>
-    <ImageButton android:id="@+id/buttonFriends"
+    <ImageButton android:id="@+id/buttonEdit"
         android:layout_width="32dp"
         android:layout_height="fill_parent"
-        android:src="@android:drawable/ic_delete"
-        android:onClick="removeFriend"/>
+        android:src="@android:drawable/edit_text"/>
+    <ImageButton android:id="@+id/buttonDelete"
+        android:layout_width="32dp"
+        android:layout_height="fill_parent"
+        android:src="@android:drawable/ic_delete"/>
 </LinearLayout>
