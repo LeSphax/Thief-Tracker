@@ -110,7 +110,7 @@ public class FriendListAdapter extends ArrayAdapter<Friends>{
         AlertDialog alert = new AlertDialog.Builder(context)
                 .setTitle("Delete")
                 .setMessage("Do you really want to delete " + friend.getName())
-                //.setIcon(R.drawable.ic_delete_black_24dp)
+                .setIcon(R.drawable.ic_delete_black_24dp)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
