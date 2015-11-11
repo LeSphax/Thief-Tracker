@@ -111,7 +111,6 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivityForResult(myIntent, 0);
-
         }
         return true;
     }
@@ -126,6 +125,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 }

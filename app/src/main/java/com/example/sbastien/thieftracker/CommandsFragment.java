@@ -7,17 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
-public class AboutFragment extends Fragment {
-
+public class CommandsFragment extends Fragment {
 
 
-    public static AboutFragment newInstance() {
-        AboutFragment fragment = new AboutFragment();
+
+    public static CommandsFragment newInstance() {
+        CommandsFragment fragment = new CommandsFragment();
         return fragment;
     }
 
-    public AboutFragment() {
+    public CommandsFragment() {
         // Required empty public constructor
     }
 
@@ -30,8 +29,9 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.pref_about, container, false);
+        return inflater.inflate(R.layout.pref_commands, container, false);
     }
+
 
 
 

@@ -1,6 +1,8 @@
 package com.example.sbastien.thieftracker;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -28,12 +30,12 @@ public class AlarmActivity extends Activity {
     int[] backgroundColors;
     int currentBackgroundColor;
     private boolean passwordEntered;
-
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mComponentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_alarm);
 
         fullscreenAndroidStuff();

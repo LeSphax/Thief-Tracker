@@ -2,8 +2,10 @@ package com.example.sbastien.thieftracker;
 
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
@@ -11,17 +13,17 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-
-import java.util.List;
+import android.widget.Toast;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -35,10 +37,20 @@ import java.util.List;
  * API Guide</a> for more information on developing a Settings UI.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
+    static boolean onMainPage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+        onMainPage = true;
+        setView(new SecurityParametersPreferenceFragment());
+
+    }
+
+    private void setView(Fragment fragment) {
+        getFragmentManager().beginTransaction().replace(android.R.id.content,
+                fragment).commit();
     }
 
     /**
@@ -70,14 +82,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -158,53 +162,37 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || CommandsPreferenceFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || SecurityParametersPreferenceFragment.class.getName().equals(fragmentName);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!onMainPage) {
+            setView(new SecurityParametersPreferenceFragment());
+            onMainPage = true;
+        } else {
+            finish();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
+
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CommandsPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_commands);
-            setHasOptionsMenu(true);
-
-            bindPreferenceSummaryToValue(findPreference("Lock"));
-            bindPreferenceSummaryToValue(findPreference("Unlock"));
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class SecurityParametersPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
         private SeekBarPreference _seekBarSensitivity;
-        private SeekBarPreference _seekBarRepetition;
+        private DevicePolicyManager devicePolicyManager;
+        private ComponentName demoDeviceAdmin;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -215,41 +203,72 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_security_settings);
             setHasOptionsMenu(true);
 
-
-            // Get widgets :
             _seekBarSensitivity = (SeekBarPreference) this.findPreference(this.getString(R.string.pref_sensitivity_key));
-            _seekBarRepetition = (SeekBarPreference) this.findPreference(this.getString(R.string.pref_repetitions_key));
+            initPreferences();
 
             // Set listener :
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-            // Set seekbar summary :
-            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity())
-                    .getInt(this.getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
-            _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + radius));
-            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity())
-                    .getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
-            _seekBarRepetition.setSummary(this.getString(R.string.pref_repetitions_summary).replace("$1", "" + repetitions));
+        }
+
+        private void setView(Fragment fragment) {
+            getFragmentManager().beginTransaction().replace(android.R.id.content,
+                    fragment).commit();
+        }
+
+
+        private void initPreferences() {
+
+            Preference commandsButton = findPreference(getString(R.string.pref_key_commands));
+            commandsButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    setView(new CommandsFragment());
+                    SettingsActivity.onMainPage = false;
+                    return true;
+                }
+            });
+
+
+            Preference aboutButton = findPreference(getString(R.string.pref_key_about));
+            aboutButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    setView(new AboutFragment());
+                    SettingsActivity.onMainPage = false;
+                    return true;
+                }
+            });
+
+            setSensitivityBarSummary();
             bindPreferenceSummaryToValue(findPreference("PIN"));
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        private void setSensitivityBarSummary() {
+            int radius = PreferenceManager.getDefaultSharedPreferences(this.getActivity())
+                    .getInt(this.getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
+            _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + radius));
         }
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            int sensitivity = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_sensitivity_key), Integer.parseInt(getString(R.string.pref_sensitivity_defaulValue)));
-            _seekBarSensitivity.setSummary(this.getString(R.string.pref_sensitivity_summary).replace("$1", "" + sensitivity));
 
-            int repetitions = PreferenceManager.getDefaultSharedPreferences(this.getActivity()).getInt(getString(R.string.pref_repetitions_key), Integer.parseInt(getString(R.string.pref_repetitions_defaulValue)));
-            _seekBarRepetition.setSummary(this.getString(R.string.pref_repetitions_summary).replace("$1", "" + repetitions));
+            if (key.equals(getString(R.string.pref_key_PIN))) {
+
+
+                //Making sure the PIN has 4 digits
+                if (sharedPreferences.getString(getString(R.string.pref_key_PIN), "0").length() != 4) {
+                    Toast.makeText(getActivity(), "The PIN should be 4 digits", Toast.LENGTH_LONG).show();
+                    EditTextPreference pinPreference = (EditTextPreference) findPreference(getString(R.string.pref_key_PIN));
+                    pinPreference.setText(null);
+                    pinPreference.setSummary("The PIN should be 4 digits");
+                    return;
+                } else {
+                    Toast.makeText(getActivity(), "Success!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else if (key.equals(getString(R.string.pref_sensitivity_key)))
+                setSensitivityBarSummary();
         }
     }
 

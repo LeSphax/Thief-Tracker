@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <Space
         android:layout_width="20px"
         android:layout_height="20px"
         android:layout_weight="1" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:textAlignment="center" />
+
+    <ScrollView
         android:id="@+id/scrollView"
-        android:layout_weight="9">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="This application was created by Yann Yavo and Sebastien Kerbrat for their Android class in Master 2"
-            android:id="@+id/textView" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </ScrollView>
 
 </LinearLayout>

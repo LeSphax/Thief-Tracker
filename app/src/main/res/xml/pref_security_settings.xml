@@ -9,15 +9,6 @@
         android:summary = "@string/pref_sensitivity_summary"
         />
 
-    <com.example.sbastien.thieftracker.SeekBarPreference
-        android:key = "@string/pref_repetitions_key"
-        android:title = "@string/pref_repetitions_title"
-        android:defaultValue="@string/pref_repetitions_defaulValue"
-        android:max = "5"
-        android:dialogMessage="Choose the movement sensitivity of the alarm"
-        android:summary = "@string/pref_repetitions_summary"
-        />
-
     <EditTextPreference
         android:key = "@string/pref_key_PIN"
         android:title="PIN"
@@ -25,7 +16,18 @@
         android:dialogMessage="Choose your PIN to unlock the phone"
         android:inputType="numberPassword"
         android:maxLength="4"
+
         />
+
+    <Preference
+        android:key = "@string/pref_key_commands"
+        android:title="@string/prefs_title_commands" >
+    </Preference>
+
+    <Preference
+        android:key = "@string/pref_key_about"
+        android:title="@string/prefs_title_about" >
+    </Preference>
 
 
 

@@ -31,7 +31,6 @@
             </intent-filter>
         </activity>
         <activity
-
             android:name=".FriendManager.FriendsActivity"
             android:label="@string/title_activity_friends"
             android:screenOrientation="portrait"
@@ -63,7 +62,13 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
         <activity android:name=".FriendManager.NewFriendActivity" >
+        </activity>
+        <activity
+            android:name=".MessageActivity"
+            android:label="@string/title_activity_message"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
