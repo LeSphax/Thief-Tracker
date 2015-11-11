@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String description = "Some Description About Your Admin";
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
-    private SmsReceiver smsReceiver;
+    //private SmsReceiver smsReceiver;
     private SharedPreference preferences;
     private Activity activity;
 
@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         setupActionBar();
         mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         mComponentName = new ComponentName(this, MyAdminReceiver.class);
-        smsReceiver = new SmsReceiver();
+       // smsReceiver = new SmsReceiver();
         preferences = new SharedPreference();
         activity = this;
 
@@ -145,6 +145,13 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
             }
         }
+
+        if (resultCode == 111) {
+            ToggleButton buttonUnplugg = (ToggleButton) findViewById(R.id.buttonUnplugged);
+            buttonUnplugg.setEnabled(false);
+        }
+
+
     }
 
 

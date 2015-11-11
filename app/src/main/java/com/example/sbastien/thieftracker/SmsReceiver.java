@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
 
 import com.example.sbastien.thieftracker.FriendManager.SharedPreference;
 import com.example.sbastien.thieftracker.model.Friends;
 
 import java.util.List;
-import java.util.Objects;
 
 public class SmsReceiver extends BroadcastReceiver{
     private final String ACTION_RECEIVE_SMS = "android.provider.Telephony.SMS_RECEIVED";
@@ -25,7 +23,7 @@ public class SmsReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         List<Friends> friendsList;
         preference = new SharedPreference();
-        friendsList = preference.getFriendsInfos(context);
+
         pref = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         if(intent.getAction().equals(ACTION_RECEIVE_SMS)) {
@@ -48,7 +46,6 @@ public class SmsReceiver extends BroadcastReceiver{
         }
 
         if (intent.getAction().equals(ACTION_POWER_DISCONNECTED) && pref.getBoolean("PLUG", false)) {
-            Toast.makeText(context,"OKKKKKKK", Toast.LENGTH_LONG);
             Intent myIntent = new Intent();
             myIntent.setClassName("com.example.sbastien.thieftracker",
                     "com.example.sbastien.thieftracker.AlarmActivity");

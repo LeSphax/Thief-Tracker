@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.sbastien.thieftracker.FriendManager.SharedPreference;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -21,6 +23,7 @@ import android.widget.TextView;
 public class AlarmActivity extends Activity {
 
     private static final int GRACE_PERIOD = 10000;
+    private static final int DISABLE_BUTTON_PLUG = 111;
 
     Button[] buttons;
     TextView pinField;
@@ -32,6 +35,7 @@ public class AlarmActivity extends Activity {
     private boolean passwordEntered;
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
+    private SharedPreference preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class AlarmActivity extends Activity {
         setupPasswordField();
         setupListeners();
         passwordEntered = false;
+        preference = new SharedPreference();
 
         startBlinking();
         startTimer();
@@ -132,6 +137,7 @@ public class AlarmActivity extends Activity {
             if (pinField.length() == 4) {
                 if (pinField.getText().toString().equals(pin)) {
                     stopAlarmSound();
+                    setResult(DISABLE_BUTTON_PLUG);
                     finish();
                 } else {
                     pinField.setText("");
@@ -166,6 +172,7 @@ public class AlarmActivity extends Activity {
 
     private void stopAlarmSound() {
         stopService(alarmIntent);
+        preference.setLoaderPlugState(this,false);
         passwordEntered = true;
         alarmRunning = false;
     }
