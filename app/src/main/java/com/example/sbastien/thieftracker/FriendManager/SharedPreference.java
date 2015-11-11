@@ -61,9 +61,39 @@ public class SharedPreference {
     }
 
     public void removeFriend(Context context, Friends friends) {
-        List<Friends> friendlist = getFriendsInfos(context);
-        if(friendlist != null)
-            friendlist.remove(friends);
-        saveFriendsInfos(context, friendlist);
+        List<Friends> friendList = getFriendsInfos(context);
+        if(friendList != null)
+            friendList.remove(friends);
+        saveFriendsInfos(context, friendList);
+    }
+
+    public void setLoaderPlugState(Context context, boolean bool) {
+        SharedPreferences preferences;
+        Editor editor;
+
+        preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        editor = preferences.edit();
+
+        editor.putBoolean("PLUG", bool);
+        editor.commit();
+    }
+
+    public boolean getloaderPlugState(Context context) {
+        SharedPreferences preferences;
+
+        preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return preferences.getBoolean("PLUG", false);
+    }
+
+    public boolean contains(Context context, String phoneNumber) {
+        List<Friends> friendList = getFriendsInfos(context);
+        String myFriendPhone;
+        for (Friends friend: friendList) {
+            myFriendPhone = friend.getPhoneNumber();
+            if (myFriendPhone.equals(phoneNumber) || myFriendPhone.replaceFirst(("\\+33"), "0").equals(phoneNumber.replaceFirst("(\\+33)","0"))
+                    || myFriendPhone.replaceFirst(("0033"),"0").equals(phoneNumber.replaceFirst("(\\+33)","0")))
+                return true;
+        }
+        return false;
     }
 }

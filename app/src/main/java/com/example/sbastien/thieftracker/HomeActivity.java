@@ -1,11 +1,13 @@
 package com.example.sbastien.thieftracker;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.sbastien.thieftracker.FriendManager.FriendsActivity;
+import com.example.sbastien.thieftracker.FriendManager.SharedPreference;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,6 +29,9 @@ public class HomeActivity extends AppCompatActivity {
     private static final String description = "Some Description About Your Admin";
     private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mComponentName;
+    private SmsReceiver smsReceiver;
+    private SharedPreference preferences;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         setupActionBar();
         mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         mComponentName = new ComponentName(this, MyAdminReceiver.class);
+        smsReceiver = new SmsReceiver();
+        preferences = new SharedPreference();
+        activity = this;
 
 
         Button buttonFriends = (Button) findViewById(R.id.buttonFriends);
@@ -56,6 +65,18 @@ public class HomeActivity extends AppCompatActivity {
                 if (button.isChecked()) {
                     Intent myIntent = new Intent(getApplicationContext(), AlarmActivity.class);
                     startActivityForResult(myIntent, 0);
+                }
+            }
+        });
+
+        ToggleButton buttonUnplugg = (ToggleButton) findViewById(R.id.buttonUnplugged);
+        buttonUnplugg.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ToggleButton button = (ToggleButton) v;
+                if (button.isChecked()) {
+                    preferences.setLoaderPlugState(activity,true);
                 }
             }
         });
