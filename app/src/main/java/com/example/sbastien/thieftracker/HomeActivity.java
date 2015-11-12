@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ToggleButton button = (ToggleButton) v;
                 if (button.isChecked()) {
-                    Intent myIntent = new Intent(getApplicationContext(), AlarmActivity.class);
+                    Intent myIntent = new Intent(getApplicationContext(), SensorActivity.class);
                     startActivityForResult(myIntent, 0);
                 }
             }
@@ -147,8 +147,8 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (resultCode == 111) {
-            ToggleButton buttonUnplugg = (ToggleButton) findViewById(R.id.buttonUnplugged);
-            buttonUnplugg.setEnabled(false);
+            ToggleButton buttonUnPlugg = (ToggleButton) findViewById(R.id.buttonUnplugged);
+            buttonUnPlugg.setChecked(false);
         }
 
 
